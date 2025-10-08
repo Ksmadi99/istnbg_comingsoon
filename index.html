@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTNBG | Coming Soon 🌌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%); color: #fff; overflow-x: hidden; }
+        header { height: 100vh; background: url('https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=2071') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .hero-content { position: relative; z-index: 1; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 4rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-bottom: 1rem; transition: transform 0.3s; }
+        h1:hover { transform: scale(1.05); }
+        .subtitle { font-size: 1.5rem; color: #ccc; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 1rem 0; z-index: 10; text-align: center; }
+        nav a { color: #ffd700; text-decoration: none; margin: 0 1rem; font-weight: 600; transition: color 0.3s; }
+        nav a:hover { color: #fff; }
+        section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #ffd700; text-align: center; margin-bottom: 2rem; cursor: pointer; transition: color 0.3s; }
+        h2:hover { color: #fff; }
+        .countdown { text-align: center; font-size: 2rem; margin-bottom: 2rem; }
+        .countdown span { color: #ffd700; }
+        .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .member-card { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; backdrop-filter: blur(10px); text-align: center; transition: transform 0.3s; }
+        .member-card:hover { transform: translateY(-5px); }
+        .member-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; filter: brightness(50%); }
+        .member-card a { color: #ffd700; text-decoration: none; }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+        .social-card { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; text-align: center; }
+        .social-card a { color: #ffd700; text-decoration: none; }
+        .video-embed { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 50%; z-index: 20; display: none; background: #000; border-radius: 10px; }
+        .close { position: absolute; top: 10px; right: 10px; color: #fff; font-size: 2rem; cursor: pointer; }
+        .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #ffd700; color: #000; padding: 1rem; border-radius: 50%; cursor: pointer; display: none; transition: opacity 0.3s; }
+        .back-to-top:hover { opacity: 0.8; }
+        footer { text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); }
+        @media (max-width: 768px) { h1 { font-size: 2.5rem; } section { padding: 2rem 1rem; } .countdown { font-size: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#teaser">Teaser</a>
+        <a href="#members">Members</a>
+        <a href="#connect">Connect</a>
+        <a href="ind.html">Park Donggyu</a>
+    </nav>
+
+    <header>
+        <div class="hero-content">
+            <h1>ISTNBG</h1>
+            <p class="subtitle">The Next Cosmic Force from IST Entertainment 🌌 | Debut Coming Soon</p>
+        </div>
+    </header>
+
+    <section id="teaser">
+        <h2>🌟 Countdown to Debut</h2>
+        <div class="countdown" id="countdown">Days: <span>00</span> Hours: <span>00</span> Minutes: <span>00</span> Seconds: <span>00</span></div>
+        <p style="text-align: center; font-size: 1.1rem;">Get ready for IST Entertainment’s next boy group! Watch the teaser and stay tuned for cosmic vibes.</p>
+        <button onclick="playVideo('https://www.youtube.com/embed/PLACEHOLDER')" style="display: block; margin: 2rem auto; padding: 0.5rem 1rem; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer;">Watch Teaser</button>
+    </section>
+
+    <section id="members">
+        <h2>🪐 Meet the Trainees</h2>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">ISTNBG’s lineup is under wraps, but meet the stars in training!</p>
+        <div class="member-grid">
+            <div class="member-card">
+                <img src="https://pbs.twimg.com/media/GyNIB5ebQAATPuF.jpg" alt="Park Donggyu">
+                <p><a href="ind.html">Park Donggyu</a></p>
+                <p>Boys II Planet All-Rounder 🪐</p>
+            </div>
+            <div class="member-card">
+                <img src="https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=2071" alt="Trainee 2">
+                <p>Trainee #2</p>
+                <p>Coming Soon...</p>
+            </div>
+            <div class="member-card">
+                <img src="https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=2071" alt="Trainee 3">
+                <p>Trainee #3</p>
+                <p>Coming Soon...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="connect">
+        <h2>🔗 Join the Hype</h2>
+        <p style="text-align: center;">Follow ISTNBG’s journey on X and official channels. Connect with fans worldwide!</p>
+        <div class="social-grid">
+            <div class="social-card"><a href="https://x.com/IST_ENT" target="_blank">@IST_ENT (Official)</a></div>
+            <div class="social-card"><a href="https://x.com/DONGGYUGLOBAL" target="_blank">@DONGGYUGLOBAL (Donggyu Fan)</a></div>
+            <div class="social-card"><a href="https://www.youtube.com/@ISTEntertainment" target="_blank">IST YouTube</a></div>
+            <div class="social-card"><a href="https://x.com/planet_plum_" target="_blank">@planet_plum_ (JP Fan)</a></div>
+        </div>
+    </section>
+
+    <div class="video-embed" id="videoModal">
+        <span class="close" onclick="closeVideo()">&times;</span>
+        <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="back-to-top" onclick="scrollToTop()" id="backToTop">↑</div>
+
+    <footer>
+        <p>&copy; 2025 ISTNBG Fanpage | Awaiting the Cosmic Debut | Data from X & IST Entertainment.</p>
+    </footer>
+
+    <script>
+        function playVideo(url) { document.getElementById('videoFrame').src = url; document.getElementById('videoModal').style.display = 'block'; }
+        function closeVideo() { document.getElementById('videoModal').style.display = 'none'; document.getElementById('videoFrame').src = ''; }
+        window.onscroll = () => { document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none'; };
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        // Countdown Timer (set to Dec 31, 2025)
+        const debutDate = new Date('2025-12-31T00:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = debutDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('countdown').innerHTML = `Days: <span>${days}</span> Hours: <span>${hours}</span> Minutes: <span>${minutes}</span> Seconds: <span>${seconds}</span>`;
+            if (distance < 0) document.getElementById('countdown').innerHTML = 'Debut Launched!';
+        }
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

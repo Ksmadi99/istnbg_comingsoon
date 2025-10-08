@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Park Donggyu | The Solar All-Rounder 🌌</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%); color: #fff; overflow-x: hidden; }
-        header { height: 100vh; background: url('https://pbs.twimg.com/media/GyNIB5ebQAATPuF.jpg') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        header { height: 100vh; background: url('https://pbs.twimg.com/media/GyNIB5ebQAATPuF.jpg') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; transition: opacity 0.3s; }
         header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
         .hero-content { position: relative; z-index: 1; }
         h1 { font-family: 'Playfair Display', serif; font-size: 4rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-bottom: 1rem; transition: transform 0.3s; }
         h1:hover { transform: scale(1.05); }
         .subtitle { font-size: 1.5rem; color: #ccc; }
-        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 1rem 0; z-index: 10; text-align: center; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 1rem 0; z-index: 10; text-align: center; transition: background 0.3s; }
         nav a { color: #ffd700; text-decoration: none; margin: 0 1rem; font-weight: 600; transition: color 0.3s; }
         nav a:hover { color: #fff; }
         section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
@@ -55,6 +56,8 @@
         .close { position: absolute; top: 10px; right: 20px; color: #ffd700; font-size: 2.5rem; cursor: pointer; font-weight: bold; }
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #ffd700; color: #000; padding: 1rem; border-radius: 50%; cursor: pointer; display: none; transition: opacity 0.3s; }
         .back-to-top:hover { opacity: 0.8; }
+        .video-embed { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50; align-items: center; justify-content: center; }
+        .video-embed iframe { max-width: 90%; max-height: 90%; }
         footer { text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); }
         @media (max-width: 768px) { 
             h1 { font-size: 2.5rem; } 
@@ -139,6 +142,10 @@
     <section id="timeline">
         <h2>📅 Achievements Timeline</h2>
         <div class="timeline">
+            <div class="timeline-item" onclick="toggleDetail(this)">
+                <strong>2017-2018</strong>: Plan A Entertainment Audition.
+                <div class="timeline-detail">Auditioned as a 12-year-old; trained briefly before agency merger. First step to stardom! 🪐</div>
+            </div>
             <div class="timeline-item" onclick="toggleDetail(this)">
                 <strong>2025 (Pre-Debut)</strong>: Joined IST after Pledis.
                 <div class="timeline-detail">Trained under big-label system—linked to SEVENTEEN & TWS. Built vocals inspired by Park Hyo-shin.</div>
@@ -233,11 +240,13 @@
             <span class="close" onclick="closeLightbox()">&times;</span>
         </div>
     </section>
-<section id="social-feed">
-    <h2>📱 Social Feed</h2>
-    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Latest posts from @ist_ent on X and @0v___x0 on IG. Scroll for more!</p>
-    <div id="social-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;"></div>
-</section>
+
+    <section id="social-feed">
+        <h2>📱 Social Feed</h2>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Latest posts from @ist_ent on X and @0v___x0 on IG. Scroll for more!</p>
+        <div id="social-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;"></div>
+    </section>
+
     <section id="social">
         <h2>🔗 Connect & Support</h2>
         <p style="text-align: center;">Join the Donggyu Nation! Follow global fans on X for updates in every language (KR, EN, JP, PT-BR, FR, etc.).</p>
@@ -276,8 +285,7 @@
         function openPopup(el, category) {
             const popup = document.getElementById('eventPopup');
             const thumbnails = document.getElementById('popupThumbnails');
-            thumbnails.innerHTML = ''; // Clear previous content
-
+            thumbnails.innerHTML = '<div style="text-align:center; color:#ffd700;">Loading...</div>';
             let images = [];
             if (category === 'BoysIIPlanet') {
                 images = [
@@ -305,7 +313,7 @@
                     { src: 'https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg', alt: 'With Dohoon 2', full: 'https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg' }
                 ];
             }
-
+            thumbnails.innerHTML = '';
             images.forEach(img => {
                 const thumbnail = document.createElement('img');
                 thumbnail.src = img.src;
@@ -314,14 +322,10 @@
                 thumbnail.onclick = () => openLightbox(thumbnail);
                 thumbnails.appendChild(thumbnail);
             });
-
             popup.style.display = 'flex';
         }
 
-        function closePopup() {
-            document.getElementById('eventPopup').style.display = 'none';
-        }
-
+        function closePopup() { document.getElementById('eventPopup').style.display = 'none'; }
         function openLightbox(img) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
@@ -358,44 +362,47 @@
                     card.style.display = (category === 'AllEvents' || card.getAttribute('data-category') === category) ? 'block' : 'none';
                 });
             });
-
-            // Load Social JSON and Render Frames
-fetch('social.json')
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('social-container');
-    data.xPosts.forEach(post => {
-      const frame = document.createElement('div');
-      frame.className = 'social-frame x-frame';
-      frame.style.background = 'rgba(0,0,0,0.8)';
-      frame.style.border = '1px solid #ffd700';
-      frame.style.borderRadius = '10px';
-      frame.style.padding = '1rem';
-      frame.innerHTML = `
-        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">X Post - ${post.date}</h4>
-        <div>${post.embedCode}</div>
-        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">${post.title}</p>
-      `;
-      container.appendChild(frame);
-    });
-    data.igPosts.forEach(post => {
-      const frame = document.createElement('div');
-      frame.className = 'social-frame ig-frame';
-      frame.style.background = 'linear-gradient(45deg, #000 0%, #1a1a2e 100%)';
-      frame.style.border = '1px solid #ffd700';
-      frame.style.borderRadius = '10px';
-      frame.style.padding = '1rem';
-      frame.innerHTML = `
-        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">IG Post - ${post.date}</h4>
-        ${post.image ? `<img src="${post.image}" alt="${post.title}" style="width: 100%; border-radius: 10px; margin-bottom: 0.5rem;">` : ''}
-        <a href="${post.url}" target="_blank" style="color: #ffd700; text-decoration: none; font-weight: 600;">View on IG</a>
-        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">${post.title}</p>
-      `;
-      container.appendChild(frame);
-    });
-  })
-  .catch(error => console.error('Error loading social.json:', error));
         });
+
+        // Social Feed Load
+        fetch('social.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('social-container');
+                data.xPosts.forEach(post => {
+                    const frame = document.createElement('div');
+                    frame.className = 'social-frame x-frame';
+                    frame.style.background = 'rgba(0,0,0,0.8)';
+                    frame.style.border = '1px solid #ffd700';
+                    frame.style.borderRadius = '10px';
+                    frame.style.padding = '1rem';
+                    frame.innerHTML = `
+                        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">X Post - ${post.date}</h4>
+                        <div>${post.embedCode}</div>
+                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">${post.title}</p>
+                    `;
+                    container.appendChild(frame);
+                });
+                data.igPosts.forEach(post => {
+                    const frame = document.createElement('div');
+                    frame.className = 'social-frame ig-frame';
+                    frame.style.background = 'linear-gradient(45deg, #000 0%, #1a1a2e 100%)';
+                    frame.style.border = '1px solid #ffd700';
+                    frame.style.borderRadius = '10px';
+                    frame.style.padding = '1rem';
+                    frame.innerHTML = `
+                        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">IG Post - ${post.date}</h4>
+                        ${post.image ? `<img src="${post.image}" alt="${post.title}" style="width: 100%; border-radius: 10px; margin-bottom: 0.5rem;">` : ''}
+                        <a href="${post.url}" target="_blank" style="color: #ffd700; text-decoration: none; font-weight: 600;">View on IG</a>
+                        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">${post.title}</p>
+                    `;
+                    container.appendChild(frame);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading social.json:', error);
+                document.getElementById('social-container').innerHTML = '<p style="color:#ffd700; text-align:center;">Failed to load social feed. Check JSON file.</p>';
+            });
     </script>
 </body>
 </html>

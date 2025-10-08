@@ -22,11 +22,17 @@
         h2:hover { color: #fff; }
         .countdown { text-align: center; font-size: 2rem; margin-bottom: 2rem; }
         .countdown span { color: #ffd700; }
-        .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-        .member-card { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; backdrop-filter: blur(10px); text-align: center; transition: transform 0.3s; }
-        .member-card:hover { transform: translateY(-5px); }
-        .member-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; filter: brightness(50%); }
-        .member-card a { color: #ffd700; text-decoration: none; }
+        .lineup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .lineup-card { background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; backdrop-filter: blur(10px); text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .lineup-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent); transition: left 0.5s; }
+        .lineup-card:hover::before { left: 100%; }
+        .lineup-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(255,215,0,0.3); border: 1px solid #ffd700; }
+        .lineup-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; filter: brightness(70%); margin-bottom: 1rem; transition: filter 0.3s; }
+        .lineup-card:hover img { filter: brightness(100%); }
+        .lineup-card h3 { font-family: 'Playfair Display', serif; color: #ffd700; margin-bottom: 0.5rem; }
+        .lineup-card p { font-size: 0.9rem; color: #ccc; margin-bottom: 0.5rem; }
+        .lineup-card a { display: block; color: #ffd700; text-decoration: none; font-weight: 600; border: 1px solid #ffd700; padding: 0.5rem; border-radius: 5px; transition: background 0.3s; }
+        .lineup-card a:hover { background: #ffd700; color: #000; }
         .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
         .social-card { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; text-align: center; }
         .social-card a { color: #ffd700; text-decoration: none; }
@@ -35,15 +41,15 @@
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #ffd700; color: #000; padding: 1rem; border-radius: 50%; cursor: pointer; display: none; transition: opacity 0.3s; }
         .back-to-top:hover { opacity: 0.8; }
         footer { text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); }
-        @media (max-width: 768px) { h1 { font-size: 2.5rem; } section { padding: 2rem 1rem; } .countdown { font-size: 1.5rem; } }
+        @media (max-width: 768px) { h1 { font-size: 2.5rem; } section { padding: 2rem 1rem; } .countdown { font-size: 1.5rem; } .lineup-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <nav>
         <a href="#teaser">Teaser</a>
-        <a href="#members">Members</a>
+        <a href="#lineup">Lineup</a>
         <a href="#connect">Connect</a>
-        <a href="donggyu.html">Park Donggyu</a>
+        <a href="ind.html">Park Donggyu</a>
     </nav>
 
     <header>
@@ -60,26 +66,46 @@
         <button onclick="playVideo('https://www.youtube.com/embed/PLACEHOLDER')" style="display: block; margin: 2rem auto; padding: 0.5rem 1rem; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer;">Watch Teaser</button>
     </section>
 
-    <section id="members">
-        <h2>🪐 Meet the Trainees</h2>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">ISTNBG’s lineup is under wraps, but meet the stars in training!</p>
-        <div class="member-grid">
-            <div class="member-card">
-                <img src="https://pbs.twimg.com/media/GyNIB5ebQAATPuF.jpg" alt="Park Donggyu">
-                <p><a href="ind.html">Park Donggyu</a></p>
-                <p>Boys II Planet All-Rounder 🪐</p>
+    <section id="lineup">
+        <h2>🪐 Meet the Lineup</h2>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">ISTNBG’s stellar trainees are gearing up for debut. Click a card to dive into their world!</p>
+        <div class="lineup-grid">
+            <div class="lineup-card">
+                <a href="donggyu.html">
+                    <img src="https://pbs.twimg.com/media/GyNIB5ebQAATPuF.jpg" alt="Park Donggyu Teaser">
+                    <h3>Park Donggyu</h3>
+                    <p>The Solar All-Rounder | Boys II Planet Ace 🪐</p>
+                    <p>Vocals that shine across the galaxy.</p>
+                </a>
             </div>
-            <div class="member-card">
-                <img src="https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=2071" alt="Trainee 2">
-                <p>Trainee #2</p>
-                <p>Coming Soon...</p>
+            <div class="lineup-card">
+                <a href="sihwan.html">
+                    <img src="https://example.com/kim-sihwan-placeholder.jpg" alt="Kim Si-hwan Teaser"> <!-- Replace with real X image URL -->
+                    <h3>Kim Si-hwan</h3>
+                    <p>Main Dancer Extraordinaire | IST Prodigy 💫</p>
+                    <p>Coming Soon: Moves that mesmerize.</p>
+                </a>
             </div>
-            <div class="member-card">
-                <img src="https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=2071" alt="Trainee 3">
-                <p>Trainee #3</p>
-                <p>Coming Soon...</p>
+            <div class="lineup-card">
+                <a href="rensho.html">
+                    <img src="https://example.com/rensho-placeholder.jpg" alt="Rensho Teaser"> <!-- Replace with real X image URL -->
+                    <h3>Rensho</h3>
+                    <p>Visual Charmer | Global Star in Training ✨</p>
+                    <p>Coming Soon: Charisma beyond borders.</p>
+                </a>
             </div>
+            <div class="lineup-card">
+                <a href="arctic.html">
+                    <img src="https://example.com/arctic-placeholder.jpg" alt="Arctic Teaser"> <!-- Replace with real X image URL -->
+                    <h3>Arctic</h3>
+                    <p>Rap Phenom | Cool Edge Vibes ❄️</p>
+                    <p>Coming Soon: Flows as sharp as ice.</p>
+                </a>
+            </div>
+            <!-- Add more cards here as lineup expands, e.g.: -->
+            <!-- <div class="lineup-card"> <a href="trainee5.html"> ... </a> </div> -->
         </div>
+        <p style="text-align: center; font-size: 0.9rem; color: #888; margin-top: 2rem;">Lineup speculative—updates from IST's cosmic reveals. More stars incoming! 🌠</p>
     </section>
 
     <section id="connect">

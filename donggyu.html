@@ -167,14 +167,14 @@
 
         <div class="events-filter">
             <span class="filter-tag">All Events</span>
-            <span class="filter-tag active">Boys II Planet</span>
-            <span class="filter-tag">K-Star Next Door</span>
+            <span class="filter-tag active">BoysIIPlanet</span>
+            <span class="filter-tag">KStarNextDoor</span>
             <span class="filter-tag">Predebut</span>
         </div>
 
         <div class="events-grid">
             <!-- Boys II Planet Event Card -->
-            <div class="event-card" data-category="boys2planet">
+            <div class="event-card" data-category="BoysIIPlanet">
                 <div class="event-header">
                     <h3>Boys II Planet Finale</h3>
                     <p>Oct 2025 | 6 captures from MNET+ archive & exhibition</p>
@@ -190,7 +190,7 @@
             </div>
 
             <!-- K-Star Next Door Event Card -->
-            <div class="event-card" data-category="kneenextdoor">
+            <div class="event-card" data-category="KStarNextDoor">
                 <div class="event-header">
                     <h3>K-Star Next Door Appearance</h3>
                     <p>Oct 7, 2025 | 2 promo shots with Haneum & crew</p>
@@ -202,7 +202,7 @@
             </div>
 
             <!-- Predebut Event Card -->
-            <div class="event-card" data-category="predebut">
+            <div class="event-card" data-category="Predebut">
                 <div class="event-header">
                     <h3>Hanlim & Pledis Era</h3>
                     <p>2023-2025 | 8 early trainee & school moments</p>
@@ -231,7 +231,7 @@
         </div>
     </section>
 
-       <section id="social">
+    <section id="social">
         <h2>🔗 Connect & Support</h2>
         <p style="text-align: center;">Join the Donggyu Nation! Follow global fans on X for updates in every language (KR, EN, JP, PT-BR, FR, etc.).</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
@@ -291,14 +291,17 @@
             document.querySelector('.lightbox-controls button[onclick="navigateLightbox(1)"]').style.display = currentImgIndex === currentImages.length - 1 ? 'none' : 'inline-block';
         }
 
-        // Simple Filter Functionality
+        // Updated Filter Functionality with Debug
         document.querySelectorAll('.filter-tag').forEach(tag => {
             tag.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
                 tag.classList.add('active');
-                const category = tag.textContent.toLowerCase().replace(' ', '');
+                const category = tag.textContent.replace(/\s+/g, ''); // Remove spaces for consistency
+                console.log('Filtering for category:', category); // Debug log
                 document.querySelectorAll('.event-card').forEach(card => {
-                    card.style.display = (category === 'all events' || card.dataset.category === category) ? 'block' : 'none';
+                    const cardCategory = card.getAttribute('data-category');
+                    console.log('Checking card:', cardCategory); // Debug log
+                    card.style.display = (category === 'AllEvents' || cardCategory === category) ? 'block' : 'none';
                 });
             });
         });

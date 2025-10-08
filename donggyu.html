@@ -34,10 +34,10 @@
         .filter-tag.active { background: rgba(255, 215, 0, 0.3); }
         .filter-tag:hover { background: rgba(255, 215, 0, 0.4); }
         .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .event-card { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 1rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2); transition: box-shadow 0.3s, transform 0.3s; height: 200px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+        .event-card { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 1rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2); transition: box-shadow 0.3s, transform 0.3s; height: 200px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
         .event-card:hover { box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); transform: translateY(-5px); }
         .event-header { text-align: center; }
-        .event-header h3 { color: #ffd700; font-size: 1.2rem; cursor: pointer; }
+        .event-header h3 { color: #ffd700; font-size: 1.2rem; }
         .event-header p { color: #888; font-size: 0.8rem; margin-top: 0.3rem; }
         .event-preview { height: 120px; overflow: hidden; }
         .event-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 5px; border: 1px solid #ffd700; }
@@ -172,7 +172,7 @@
 
     <section id="gallery">
         <h2>🖼️ Gallery Collection</h2>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Dive into Donggyu’s iconic moments from X & official sources. Click title to view collection! (Folder: photos/parkdonggyu/)</p>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Dive into Donggyu’s iconic moments from X & official sources. Click card to view collection! (Folder: photos/parkdonggyu/)</p>
 
         <div class="events-filter">
             <span class="filter-tag">All Events</span>
@@ -183,9 +183,9 @@
 
         <div class="events-grid">
             <!-- Boys II Planet Event Card -->
-            <div class="event-card" data-category="BoysIIPlanet">
+            <div class="event-card" data-category="BoysIIPlanet" onclick="openPopup(this, 'BoysIIPlanet')">
                 <div class="event-header">
-                    <h3 onclick="openPopup(this, 'BoysIIPlanet')">Boys II Planet Finale</h3>
+                    <h3>Boys II Planet Finale</h3>
                     <p>Oct 2025 | 6 captures</p>
                 </div>
                 <div class="event-preview">
@@ -194,9 +194,9 @@
             </div>
 
             <!-- K-Star Next Door Event Card -->
-            <div class="event-card" data-category="KStarNextDoor">
+            <div class="event-card" data-category="KStarNextDoor" onclick="openPopup(this, 'KStarNextDoor')">
                 <div class="event-header">
-                    <h3 onclick="openPopup(this, 'KStarNextDoor')">K-Star Next Door Appearance</h3>
+                    <h3>K-Star Next Door Appearance</h3>
                     <p>Oct 7, 2025 | 2 promo shots</p>
                 </div>
                 <div class="event-preview">
@@ -205,9 +205,9 @@
             </div>
 
             <!-- Predebut Event Card -->
-            <div class="event-card" data-category="Predebut">
+            <div class="event-card" data-category="Predebut" onclick="openPopup(this, 'Predebut')">
                 <div class="event-header">
-                    <h3 onclick="openPopup(this, 'Predebut')">Hanlim & Pledis Era</h3>
+                    <h3>Hanlim & Pledis Era</h3>
                     <p>2023-2025 | 8 early moments</p>
                 </div>
                 <div class="event-preview">
@@ -274,7 +274,6 @@
             const thumbnails = document.getElementById('popupThumbnails');
             thumbnails.innerHTML = ''; // Clear previous content
 
-            const eventCard = el.closest('.event-card');
             let images = [];
             if (category === 'BoysIIPlanet') {
                 images = [

@@ -33,15 +33,21 @@
         .filter-tag { background: rgba(255, 215, 0, 0.2); color: #ffd700; padding: 0.5rem 1rem; border-radius: 20px; margin: 0 0.5rem; cursor: pointer; transition: background 0.3s; }
         .filter-tag.active { background: rgba(255, 215, 0, 0.3); }
         .filter-tag:hover { background: rgba(255, 215, 0, 0.4); }
-        .events-grid { display: flex; flex-direction: column; gap: 3rem; }
-        .event-card { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2); transition: box-shadow 0.3s, transform 0.3s; }
-        .event-card:hover { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); transform: translateY(-5px); }
-        .event-header h3 { color: #ffd700; margin-bottom: 0.5rem; }
-        .event-header p { color: #888; font-size: 0.9rem; margin-bottom: 1rem; }
-        .thumbnails-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-        .thumbnails-grid img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid #ffd700; }
-        .thumbnails-grid img:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
-        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 20; align-items: center; justify-content: center; }
+        .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .event-card { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 1rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2); transition: box-shadow 0.3s, transform 0.3s; height: 200px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+        .event-card:hover { box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); transform: translateY(-5px); }
+        .event-header { text-align: center; }
+        .event-header h3 { color: #ffd700; font-size: 1.2rem; cursor: pointer; }
+        .event-header p { color: #888; font-size: 0.8rem; margin-top: 0.3rem; }
+        .event-preview { height: 120px; overflow: hidden; }
+        .event-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 5px; border: 1px solid #ffd700; }
+        .event-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 30; align-items: center; justify-content: center; }
+        .popup-content { background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; max-width: 90%; max-height: 80%; overflow-y: auto; }
+        .popup-thumbnails { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .popup-thumbnails img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 2px solid #ffd700; transition: transform 0.3s; }
+        .popup-thumbnails img:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
+        .close-popup { position: absolute; top: 10px; right: 20px; color: #ffd700; font-size: 2rem; cursor: pointer; }
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 40; align-items: center; justify-content: center; }
         .lightbox img { max-width: 90%; max-height: 80%; object-fit: contain; border-radius: 10px; border: 2px solid #ffd700; }
         .lightbox-controls { position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 2rem; }
         .lightbox-controls button, .lightbox-controls a { background: #ffd700; color: #000; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; transition: background 0.3s; text-decoration: none; }
@@ -53,9 +59,11 @@
         @media (max-width: 768px) { 
             h1 { font-size: 2.5rem; } 
             section { padding: 2rem 1rem; } 
-            .thumbnails-grid { grid-template-columns: repeat(2, 1fr); } 
-            .event-card { padding: 1rem; } 
+            .events-grid { grid-template-columns: 1fr; } 
+            .event-card { height: 180px; } 
+            .event-preview { height: 100px; } 
             .lightbox img { max-width: 95%; max-height: 70%; } 
+            .popup-content { max-width: 95%; } 
         }
     </style>
 </head>
@@ -163,7 +171,7 @@
 
     <section id="gallery">
         <h2>🖼️ Gallery Collection</h2>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Dive into Donggyu’s iconic moments from X & official sources. Click to view full-size and download! (Folder: photos/parkdonggyu/)</p>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Dive into Donggyu’s iconic moments from X & official sources. Click title to view collection! (Folder: photos/parkdonggyu/)</p>
 
         <div class="events-filter">
             <span class="filter-tag">All Events</span>
@@ -176,47 +184,41 @@
             <!-- Boys II Planet Event Card -->
             <div class="event-card" data-category="BoysIIPlanet">
                 <div class="event-header">
-                    <h3>Boys II Planet Finale</h3>
-                    <p>Oct 2025 | 6 captures from MNET+ archive & exhibition</p>
+                    <h3 onclick="openPopup(this, 'BoysIIPlanet')">Boys II Planet Finale</h3>
+                    <p>Oct 2025 | 6 captures</p>
                 </div>
-                <div class="thumbnails-grid">
-                    <img src="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" alt="Finale Shot 1" data-full="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg" alt="Finale Shot 2" data-full="https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg" alt="Exhibition Photocard" data-full="https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg" alt="Archive Event" data-full="https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg" alt="Popup Display" data-full="https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg" alt="Week 2 Exhibition" data-full="https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg" onclick="openLightbox(this)">
+                <div class="event-preview">
+                    <img src="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" alt="Finale Preview">
                 </div>
             </div>
 
             <!-- K-Star Next Door Event Card -->
             <div class="event-card" data-category="KStarNextDoor">
                 <div class="event-header">
-                    <h3>K-Star Next Door Appearance</h3>
-                    <p>Oct 7, 2025 | 2 promo shots with Haneum & crew</p>
+                    <h3 onclick="openPopup(this, 'KStarNextDoor')">K-Star Next Door Appearance</h3>
+                    <p>Oct 7, 2025 | 2 promo shots</p>
                 </div>
-                <div class="thumbnails-grid">
-                    <img src="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" alt="Group Promo" data-full="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg" alt="Episode Teaser" data-full="https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg" onclick="openLightbox(this)">
+                <div class="event-preview">
+                    <img src="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" alt="K-Star Preview">
                 </div>
             </div>
 
             <!-- Predebut Event Card -->
             <div class="event-card" data-category="Predebut">
                 <div class="event-header">
-                    <h3>Hanlim & Pledis Era</h3>
-                    <p>2023-2025 | 8 early trainee & school moments</p>
+                    <h3 onclick="openPopup(this, 'Predebut')">Hanlim & Pledis Era</h3>
+                    <p>2023-2025 | 8 early moments</p>
                 </div>
-                <div class="thumbnails-grid">
-                    <img src="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" alt="Hanlim Era 1" data-full="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg" alt="Hanlim Era 2" data-full="https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg" alt="Hanlim ID Pic" data-full="https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg" alt="High School Blond" data-full="https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg" alt="Pledis Official" data-full="https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg" alt="Graduation Gondrong" data-full="https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg" alt="With Dohoon 1" data-full="https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg" onclick="openLightbox(this)">
-                    <img src="https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg" alt="With Dohoon 2" data-full="https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg" onclick="openLightbox(this)">
+                <div class="event-preview">
+                    <img src="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" alt="Predebut Preview">
                 </div>
+            </div>
+        </div>
+
+        <div class="event-popup" id="eventPopup">
+            <div class="popup-content">
+                <span class="close-popup" onclick="closePopup()">&times;</span>
+                <div class="popup-thumbnails" id="popupThumbnails"></div>
             </div>
         </div>
 
@@ -265,6 +267,57 @@
         let currentImgIndex = 0;
         let currentImages = [];
 
+        // Event Popup Functionality
+        function openPopup(el, category) {
+            const popup = document.getElementById('eventPopup');
+            const thumbnails = document.getElementById('popupThumbnails');
+            thumbnails.innerHTML = ''; // Clear previous content
+
+            const eventCard = el.closest('.event-card');
+            let images = [];
+            if (category === 'BoysIIPlanet') {
+                images = [
+                    { src: 'https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg', alt: 'Finale Shot 1', full: 'https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg', alt: 'Finale Shot 2', full: 'https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg', alt: 'Exhibition Photocard', full: 'https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg', alt: 'Archive Event', full: 'https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg', alt: 'Popup Display', full: 'https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg', alt: 'Week 2 Exhibition', full: 'https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg' }
+                ];
+            } else if (category === 'KStarNextDoor') {
+                images = [
+                    { src: 'https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg', alt: 'Group Promo', full: 'https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg', alt: 'Episode Teaser', full: 'https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg' }
+                ];
+            } else if (category === 'Predebut') {
+                images = [
+                    { src: 'https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg', alt: 'Hanlim Era 1', full: 'https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg', alt: 'Hanlim Era 2', full: 'https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg', alt: 'Hanlim ID Pic', full: 'https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg', alt: 'High School Blond', full: 'https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg', alt: 'Pledis Official', full: 'https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg', alt: 'Graduation Gondrong', full: 'https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg', alt: 'With Dohoon 1', full: 'https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg' },
+                    { src: 'https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg', alt: 'With Dohoon 2', full: 'https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg' }
+                ];
+            }
+
+            images.forEach(img => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = img.src;
+                thumbnail.alt = img.alt;
+                thumbnail.dataset.full = img.full;
+                thumbnail.onclick = () => openLightbox(thumbnail);
+                thumbnails.appendChild(thumbnail);
+            });
+
+            popup.style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('eventPopup').style.display = 'none';
+        }
+
         function openLightbox(img) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
@@ -273,7 +326,7 @@
             lightboxImg.src = img.dataset.full;
             downloadBtn.href = img.dataset.full;
             downloadBtn.download = img.alt.replace(/\s+/g, '_') + '.jpg';
-            currentImages = Array.from(document.querySelectorAll('.thumbnails-grid img'));
+            currentImages = Array.from(document.querySelectorAll('.popup-thumbnails img'));
             currentImgIndex = currentImages.indexOf(img);
             updateLightboxControls();
         }
@@ -291,17 +344,14 @@
             document.querySelector('.lightbox-controls button[onclick="navigateLightbox(1)"]').style.display = currentImgIndex === currentImages.length - 1 ? 'none' : 'inline-block';
         }
 
-        // Updated Filter Functionality with Debug
+        // Filter Functionality
         document.querySelectorAll('.filter-tag').forEach(tag => {
             tag.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
                 tag.classList.add('active');
-                const category = tag.textContent.replace(/\s+/g, ''); // Remove spaces for consistency
-                console.log('Filtering for category:', category); // Debug log
+                const category = tag.textContent.replace(/\s+/g, '');
                 document.querySelectorAll('.event-card').forEach(card => {
-                    const cardCategory = card.getAttribute('data-category');
-                    console.log('Checking card:', cardCategory); // Debug log
-                    card.style.display = (category === 'AllEvents' || cardCategory === category) ? 'block' : 'none';
+                    card.style.display = (category === 'AllEvents' || card.getAttribute('data-category') === category) ? 'block' : 'none';
                 });
             });
         });

@@ -29,23 +29,34 @@
         .timeline-item { background: rgba(255,215,0,0.1); padding: 1rem; border-left: 3px solid #ffd700; cursor: pointer; transition: background 0.3s; }
         .timeline-item:hover { background: rgba(255,215,0,0.2); }
         .timeline-detail { display: none; margin-top: 0.5rem; font-size: 0.9rem; }
-        .gallery-section { margin-bottom: 2rem; }
-        .gallery-section h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffd700; margin-bottom: 1rem; }
-        .gallery-toggle { display: block; margin: 0 auto 1rem; padding: 0.5rem 1rem; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
-        .gallery-toggle:hover { background: #fff; color: #000; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.3s; }
-        .gallery-grid img:hover { transform: scale(1.05); }
-        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20; align-items: center; justify-content: center; }
-        .lightbox img { max-width: 90%; max-height: 80%; object-fit: contain; border-radius: 10px; }
+        .events-filter { text-align: center; margin-bottom: 2rem; }
+        .filter-tag { background: rgba(255, 215, 0, 0.2); color: #ffd700; padding: 0.5rem 1rem; border-radius: 20px; margin: 0 0.5rem; cursor: pointer; transition: background 0.3s; }
+        .filter-tag.active { background: rgba(255, 215, 0, 0.3); }
+        .filter-tag:hover { background: rgba(255, 215, 0, 0.4); }
+        .events-grid { display: flex; flex-direction: column; gap: 3rem; }
+        .event-card { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.2); transition: box-shadow 0.3s, transform 0.3s; }
+        .event-card:hover { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3); transform: translateY(-5px); }
+        .event-header h3 { color: #ffd700; margin-bottom: 0.5rem; }
+        .event-header p { color: #888; font-size: 0.9rem; margin-bottom: 1rem; }
+        .thumbnails-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .thumbnails-grid img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid #ffd700; }
+        .thumbnails-grid img:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 20; align-items: center; justify-content: center; }
+        .lightbox img { max-width: 90%; max-height: 80%; object-fit: contain; border-radius: 10px; border: 2px solid #ffd700; }
         .lightbox-controls { position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 2rem; }
-        .lightbox-controls button { background: #ffd700; color: #000; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; }
-        .lightbox-controls a { background: #ffd700; color: #000; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; }
-        .close { position: absolute; top: 10px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; }
+        .lightbox-controls button, .lightbox-controls a { background: #ffd700; color: #000; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; transition: background 0.3s; text-decoration: none; }
+        .lightbox-controls button:hover, .lightbox-controls a:hover { background: #e6c200; }
+        .close { position: absolute; top: 10px; right: 20px; color: #ffd700; font-size: 2.5rem; cursor: pointer; font-weight: bold; }
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #ffd700; color: #000; padding: 1rem; border-radius: 50%; cursor: pointer; display: none; transition: opacity 0.3s; }
         .back-to-top:hover { opacity: 0.8; }
         footer { text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); }
-        @media (max-width: 768px) { h1 { font-size: 2.5rem; } section { padding: 2rem 1rem; } .lightbox img { max-width: 95%; max-height: 70%; } }
+        @media (max-width: 768px) { 
+            h1 { font-size: 2.5rem; } 
+            section { padding: 2rem 1rem; } 
+            .thumbnails-grid { grid-template-columns: repeat(2, 1fr); } 
+            .event-card { padding: 1rem; } 
+            .lightbox img { max-width: 95%; max-height: 70%; } 
+        }
     </style>
 </head>
 <body>
@@ -152,42 +163,60 @@
 
     <section id="gallery">
         <h2>🖼️ Gallery Collection</h2>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Explore Donggyu’s iconic moments from X & official sources. Click to view full-size and download! (Folder: photos/parkdonggyu/)</p>
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Dive into Donggyu’s iconic moments from X & official sources. Click to view full-size and download! (Folder: photos/parkdonggyu/)</p>
 
-        <div class="gallery-section">
-            <h3>Boys II Planet</h3>
-            <button class="gallery-toggle" onclick="toggleGallery('boys2planet')">Toggle Boys II Planet Gallery</button>
-            <div class="gallery-grid" id="boys2planet" style="display: none;">
-                <img src="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" alt="Boys II Planet Finale Shot 1" data-full="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg" alt="Boys II Planet Finale Shot 2" data-full="https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg" alt="Boys II Planet Exhibition Photocard" data-full="https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg" alt="Boys II Planet Archive Event" data-full="https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg" alt="Boys II Planet Popup Display" data-full="https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg" alt="Boys II Planet Week 2 Exhibition" data-full="https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg" onclick="openLightbox(this)">
-            </div>
+        <div class="events-filter">
+            <span class="filter-tag">All Events</span>
+            <span class="filter-tag active">Boys II Planet</span>
+            <span class="filter-tag">K-Star Next Door</span>
+            <span class="filter-tag">Predebut</span>
         </div>
 
-        <div class="gallery-section">
-            <h3>K-Star Next Door</h3>
-            <button class="gallery-toggle" onclick="toggleGallery('kneenextdoor')">Toggle K-Star Next Door Gallery</button>
-            <div class="gallery-grid" id="kneenextdoor" style="display: none;">
-                <img src="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" alt="K-Star Next Door Group Promo" data-full="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg" alt="K-Star Next Door Episode Teaser" data-full="https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg" onclick="openLightbox(this)">
+        <div class="events-grid">
+            <!-- Boys II Planet Event Card -->
+            <div class="event-card" data-category="boys2planet">
+                <div class="event-header">
+                    <h3>Boys II Planet Finale</h3>
+                    <p>Oct 2025 | 6 captures from MNET+ archive & exhibition</p>
+                </div>
+                <div class="thumbnails-grid">
+                    <img src="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" alt="Finale Shot 1" data-full="https://pbs.twimg.com/media/G2dqrNobMAE7Upi.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg" alt="Finale Shot 2" data-full="https://pbs.twimg.com/media/G2dqrOIaQAAhqtp.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg" alt="Exhibition Photocard" data-full="https://pbs.twimg.com/media/G2YRlc0bMAIBZaI.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg" alt="Archive Event" data-full="https://pbs.twimg.com/media/G2n8tswbIAIB6Vp.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg" alt="Popup Display" data-full="https://pbs.twimg.com/media/G2oz1V0bIAAzVOS.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg" alt="Week 2 Exhibition" data-full="https://pbs.twimg.com/media/G2k6klHXsAAsZBj.jpg" onclick="openLightbox(this)">
+                </div>
             </div>
-        </div>
 
-        <div class="gallery-section">
-            <h3>Predebut</h3>
-            <button class="gallery-toggle" onclick="toggleGallery('predebut')">Toggle Predebut Gallery</button>
-            <div class="gallery-grid" id="predebut" style="display: none;">
-                <img src="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" alt="Predebut Hanlim Era 1" data-full="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg" alt="Predebut Hanlim Era 2" data-full="https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg" alt="Hanlim ID Pic" data-full="https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg" alt="High School Blond HD" data-full="https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg" alt="Pledis Official Push" data-full="https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg" alt="Hanlim Graduation Gondrong" data-full="https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg" alt="Predebut with Dohoon 1" data-full="https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg" onclick="openLightbox(this)">
-                <img src="https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg" alt="Predebut with Dohoon 2" data-full="https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg" onclick="openLightbox(this)">
+            <!-- K-Star Next Door Event Card -->
+            <div class="event-card" data-category="kneenextdoor">
+                <div class="event-header">
+                    <h3>K-Star Next Door Appearance</h3>
+                    <p>Oct 7, 2025 | 2 promo shots with Haneum & crew</p>
+                </div>
+                <div class="thumbnails-grid">
+                    <img src="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" alt="Group Promo" data-full="https://pbs.twimg.com/media/G2bXsQhWcAAMpMk.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg" alt="Episode Teaser" data-full="https://pbs.twimg.com/media/G2rBNf8XUAAAvmm.jpg" onclick="openLightbox(this)">
+                </div>
+            </div>
+
+            <!-- Predebut Event Card -->
+            <div class="event-card" data-category="predebut">
+                <div class="event-header">
+                    <h3>Hanlim & Pledis Era</h3>
+                    <p>2023-2025 | 8 early trainee & school moments</p>
+                </div>
+                <div class="thumbnails-grid">
+                    <img src="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" alt="Hanlim Era 1" data-full="https://pbs.twimg.com/media/G2CAJAcbIAAliKt.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg" alt="Hanlim Era 2" data-full="https://pbs.twimg.com/media/G2CAJVUbEAAm3mp.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg" alt="Hanlim ID Pic" data-full="https://pbs.twimg.com/media/G1dJGulWQAAPVHc.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg" alt="High School Blond" data-full="https://pbs.twimg.com/media/G1cS076bsAEnW2O.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg" alt="Pledis Official" data-full="https://pbs.twimg.com/media/G1VvMiEbQAUYtNB.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg" alt="Graduation Gondrong" data-full="https://pbs.twimg.com/media/G1KvbqVaQAAaOYE.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg" alt="With Dohoon 1" data-full="https://pbs.twimg.com/media/G1LaLZ_aQAArQaw.jpg" onclick="openLightbox(this)">
+                    <img src="https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg" alt="With Dohoon 2" data-full="https://pbs.twimg.com/media/G1LaLkeaQAAhEnU.jpg" onclick="openLightbox(this)">
+                </div>
             </div>
         </div>
 
@@ -202,7 +231,7 @@
         </div>
     </section>
 
-    <section id="social">
+       <section id="social">
         <h2>🔗 Connect & Support</h2>
         <p style="text-align: center;">Join the Donggyu Nation! Follow global fans on X for updates in every language (KR, EN, JP, PT-BR, FR, etc.).</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
@@ -227,13 +256,15 @@
     </footer>
 
     <script>
-        let currentImgIndex = 0;
-        let currentImages = [];
-
         function toggleDetail(el) { el.querySelector('.timeline-detail').style.display = el.querySelector('.timeline-detail').style.display === 'block' ? 'none' : 'block'; }
         function playVideo(url) { document.getElementById('videoFrame').src = url; document.getElementById('videoModal').style.display = 'block'; }
         function closeVideo() { document.getElementById('videoModal').style.display = 'none'; document.getElementById('videoFrame').src = ''; }
-        function toggleGallery(id) { const grid = document.getElementById(id); grid.style.display = grid.style.display === 'none' ? 'grid' : 'none'; }
+        window.onscroll = () => { document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none'; };
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        let currentImgIndex = 0;
+        let currentImages = [];
+
         function openLightbox(img) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
@@ -241,8 +272,8 @@
             lightbox.style.display = 'flex';
             lightboxImg.src = img.dataset.full;
             downloadBtn.href = img.dataset.full;
-            downloadBtn.download = img.alt + '.jpg';
-            currentImages = Array.from(img.parentElement.getElementsByTagName('img'));
+            downloadBtn.download = img.alt.replace(/\s+/g, '_') + '.jpg';
+            currentImages = Array.from(document.querySelectorAll('.thumbnails-grid img'));
             currentImgIndex = currentImages.indexOf(img);
             updateLightboxControls();
         }
@@ -252,15 +283,25 @@
             const img = currentImages[currentImgIndex];
             document.getElementById('lightboxImg').src = img.dataset.full;
             document.getElementById('downloadBtn').href = img.dataset.full;
-            document.getElementById('downloadBtn').download = img.alt + '.jpg';
+            document.getElementById('downloadBtn').download = img.alt.replace(/\s+/g, '_') + '.jpg';
             updateLightboxControls();
         }
         function updateLightboxControls() {
-            document.querySelector('.lightbox-controls button[onclick="navigateLightbox(-1)"]').style.visibility = currentImgIndex === 0 ? 'hidden' : 'visible';
-            document.querySelector('.lightbox-controls button[onclick="navigateLightbox(1)"]').style.visibility = currentImgIndex === currentImages.length - 1 ? 'hidden' : 'visible';
+            document.querySelector('.lightbox-controls button[onclick="navigateLightbox(-1)"]').style.display = currentImgIndex === 0 ? 'none' : 'inline-block';
+            document.querySelector('.lightbox-controls button[onclick="navigateLightbox(1)"]').style.display = currentImgIndex === currentImages.length - 1 ? 'none' : 'inline-block';
         }
-        window.onscroll = () => { document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none'; };
-        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        // Simple Filter Functionality
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                const category = tag.textContent.toLowerCase().replace(' ', '');
+                document.querySelectorAll('.event-card').forEach(card => {
+                    card.style.display = (category === 'all events' || card.dataset.category === category) ? 'block' : 'none';
+                });
+            });
+        });
     </script>
 </body>
 </html>

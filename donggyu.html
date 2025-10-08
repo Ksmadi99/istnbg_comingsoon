@@ -233,7 +233,11 @@
             <span class="close" onclick="closeLightbox()">&times;</span>
         </div>
     </section>
-
+<section id="social-feed">
+    <h2>📱 Social Feed</h2>
+    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Latest posts from @ist_ent on X and @0v___x0 on IG. Scroll for more!</p>
+    <div id="social-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;"></div>
+</section>
     <section id="social">
         <h2>🔗 Connect & Support</h2>
         <p style="text-align: center;">Join the Donggyu Nation! Follow global fans on X for updates in every language (KR, EN, JP, PT-BR, FR, etc.).</p>
@@ -354,6 +358,43 @@
                     card.style.display = (category === 'AllEvents' || card.getAttribute('data-category') === category) ? 'block' : 'none';
                 });
             });
+
+            // Load Social JSON and Render Frames
+fetch('social.json')
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById('social-container');
+    data.xPosts.forEach(post => {
+      const frame = document.createElement('div');
+      frame.className = 'social-frame x-frame';
+      frame.style.background = 'rgba(0,0,0,0.8)';
+      frame.style.border = '1px solid #ffd700';
+      frame.style.borderRadius = '10px';
+      frame.style.padding = '1rem';
+      frame.innerHTML = `
+        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">X Post - ${post.date}</h4>
+        <div>${post.embedCode}</div>
+        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">${post.title}</p>
+      `;
+      container.appendChild(frame);
+    });
+    data.igPosts.forEach(post => {
+      const frame = document.createElement('div');
+      frame.className = 'social-frame ig-frame';
+      frame.style.background = 'linear-gradient(45deg, #000 0%, #1a1a2e 100%)';
+      frame.style.border = '1px solid #ffd700';
+      frame.style.borderRadius = '10px';
+      frame.style.padding = '1rem';
+      frame.innerHTML = `
+        <h4 style="color: #ffd700; margin-bottom: 0.5rem;">IG Post - ${post.date}</h4>
+        ${post.image ? `<img src="${post.image}" alt="${post.title}" style="width: 100%; border-radius: 10px; margin-bottom: 0.5rem;">` : ''}
+        <a href="${post.url}" target="_blank" style="color: #ffd700; text-decoration: none; font-weight: 600;">View on IG</a>
+        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0.5rem;">${post.title}</p>
+      `;
+      container.appendChild(frame);
+    });
+  })
+  .catch(error => console.error('Error loading social.json:', error));
         });
     </script>
 </body>

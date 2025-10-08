@@ -31,14 +31,14 @@
       "title": "250926 Instagram Story Updates",
       "date": "2025-09-26",
       "type": "ig",
-      "image": "https://example.com/ig-story-thumb.jpg"  // Use a screenshot or archive image
+      "image": "https://example.com/ig-story-thumb.jpg"
     },
     {
       "url": "https://www.instagram.com/p/C_ABC123/",
       "title": "Boys II Planet Finale Post",
       "date": "2025-09-26",
       "type": "ig",
-      "image": "https://pbs.twimg.com/media/G10kBq9agAAO-1Z.jpg"  // From X post as placeholder
+      "image": "https://pbs.twimg.com/media/G10kBq9agAAO-1Z.jpg"
     },
     {
       "url": "https://www.instagram.com/reel/C_DEF456/",

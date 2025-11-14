@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ISTNBG Calendar — Zero-Setup React Preview</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0c1d; --panel:#0f1220; --muted:#9aa0b4; --accent:#a685ff; --gold:#ffd700;
+      --ig:#e4405f; --x:#1da1f2; --yt:#ff0000; --tv:#00b894; --rednote:#ff7f50; --news:#ffd670;
+      --card:#11131b; --glass: rgba(255,255,255,0.04);
+    }
+    html,body,#root{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: linear-gradient(180deg,var(--bg), #141224); color:#e9edf5;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:20px;
+    }
+
+    .app {
+      max-width:1150px; margin:0 auto;
+      display:flex; gap:20px; align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .left, .right { background: linear-gradient(180deg,var(--panel), #151626); border-radius:12px; padding:16px; box-shadow:0 6px 30px rgba(15,12,30,0.6); }
+    .left { flex:1 1 700px; min-width:300px; }
+    .right { width:320px; flex:0 0 320px; min-width:260px; }
+
+    .header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+    .title { font-size:20px; font-weight:600; color:var(--accent); display:flex; align-items:center; gap:8px; }
+    .controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+
+    button, input[type="button"] { background:transparent; border:1px solid rgba(255,255,255,0.06); color:inherit; padding:8px 10px; border-radius:8px; cursor:pointer; }
+    .btn-primary { background:linear-gradient(90deg,var(--accent), #6f8cff); color:#061027; border:0; font-weight:600; }
+    .small { padding:6px 8px; font-size:13px; }
+
+    .month-nav { display:flex; gap:8px; align-items:center; }
+    .month-title { font-weight:700; font-size:16px; color:#fff; }
+
+    .legend { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .legend-item { padding:6px 8px; border-radius:8px; font-size:13px; display:flex; gap:8px; align-items:center; background:var(--card); border:1px solid rgba(255,255,255,0.03); }
+
+    .calendar {
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:8px;
+    }
+
+    .weekday {
+      font-size:12px; text-align:center; padding:8px 6px; color:var(--muted);
+    }
+
+    .cell {
+      min-height:110px; border-radius:10px; padding:8px; background:var(--card); position:relative; overflow:hidden; border:1px solid rgba(255,255,255,0.03);
+    }
+    .cell.empty { background:transparent; border:0; min-height:60px; }
+
+    .date {
+      font-size:13px; color:var(--accent); font-weight:600; margin-bottom:8px;
+    }
+
+    .pill { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:8px; margin-bottom:6px; font-size:13px; cursor:pointer; }
+    .pill:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.6); }
+
+    .filter-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; align-items:center; }
+
+    /* colors per type */
+    .type-ig-post { background:linear-gradient(90deg,#fff0f2,#ffe7ee); color:#7f1730; border-left:4px solid var(--ig); }
+    .type-ig-story { background:linear-gradient(90deg,#fef6f1,#fff6e9); color:#7a4418; border-left:4px solid #ff9f5a; }
+    .type-x { background:linear-gradient(90deg,#e8f6ff,#eaf7ff); color:#053552; border-left:4px solid var(--x); }
+    .type-yt { background:linear-gradient(90deg,#ffecec,#fff0f0); color:#6b0b0b; border-left:4px solid var(--yt); }
+    .type-tv { background:linear-gradient(90deg,#ebfff2,#f4fff7); color:#0a3d22; border-left:4px solid var(--tv); }
+    .type-rednote { background:linear-gradient(90deg,#fff7ef,#fff2e8); color:#6b3a11; border-left:4px solid var(--rednote); }
+    .type-news { background:linear-gradient(90deg,#fffaf0,#fffdf5); color:#6b4b0b; border-left:4px solid var(--news); }
+
+    .search { flex:1 1 220px; }
+    input[type="text"], select, input[type="date"], input[type="time"], textarea {
+      padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:inherit; width:100%;
+    }
+
+    .right-section h3 { margin:0 0 8px 0; color:var(--accent); font-size:15px; }
+    .right .panel { margin-bottom:12px; }
+
+    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:9999; padding:20px; }
+    .modal { width:100%; max-width:920px; background:linear-gradient(180deg,#0f1120,#141628); padding:16px; border-radius:12px; color:#fff; box-shadow:0 10px 40px rgba(0,0,0,0.6); }
+
+    .modal iframe, .modal blockquote, .modal img, .modal .embed-preview { width:100%; border-radius:8px; border:0; display:block; }
+
+    .footer { margin-top:18px; color:var(--muted); font-size:13px; text-align:center; }
+
+    .today-highlight { box-shadow:0 6px 28px rgba(166,133,255,0.12); border:1px solid rgba(166,133,255,0.15); }
+
+    .mobile-grid { display:none; }
+
+    @media (max-width:880px){
+      .app{padding:12px}
+      .left{flex:1 1 100%}
+      .right{flex:1 1 100%; width:auto}
+      .calendar { grid-template-columns: repeat(7, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + ReactDOM + Babel (playground style) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <!-- App -->
+  <script type="text/babel">
+
+    const {
+      useState, useEffect, useMemo
+    } = React;
+
+    // Default demo events (you can edit or add via "Add Event")
+    const DEFAULT_EVENTS = [
+      { id:1, date:'2025-06-12', time:'20:00', title:'Boys II Planet Intro', type:'tv', embed:'<iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/ScMzIvxBSi4\" allowfullscreen></iframe>' },
+      { id:2, date:'2025-06-18', time:'12:00', title:'Official IG Post', type:'ig-post', embed:'<blockquote>Instagram embed - replace with real IG embed code</blockquote>' },
+      { id:3, date:'2025-06-25', time:'09:30', title:'First X Post', type:'x', embed:'<blockquote>Twitter/X embed - replace with real Tweet embed</blockquote>' },
+      { id:4, date:'2025-06-21', time:'18:00', title:'Dance Practice (YouTube)', type:'yt', embed:'<iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" allowfullscreen></iframe>' },
+      { id:5, date:'2025-06-30', time:'10:00', title:'RedNote Journal Update', type:'rednote', embed:'<div style=\"padding:10px;\">RedNote post preview</div>' },
+      { id:6, date:'2025-07-05', time:'19:00', title:'TV Variety Interview', type:'tv', embed:'<iframe width=\"100%\" height=\"360\" src=\"https://www.youtube.com/embed/ScMzIvxBSi4\" allowfullscreen></iframe>' },
+    ];
+
+    const CATEGORY_META = {
+      'ig-post': { label:'IG Post', emoji:'📸', className:'type-ig-post' },
+      'ig-story': { label:'IG Story', emoji:'📲', className:'type-ig-story' },
+      'x': { label:'X Post', emoji:'🐦', className:'type-x' },
+      'yt': { label:'YouTube', emoji:'🎥', className:'type-yt' },
+      'tv': { label:'TV Show', emoji:'📺', className:'type-tv' },
+      'rednote': { label:'RedNote', emoji:'📝', className:'type-rednote' },
+      'news': { label:'News', emoji:'📰', className:'type-news' },
+    };
+
+    function uid(){ return Math.floor(Math.random()*1e9).toString(36); }
+
+    function useLocalStorage(key, initial){
+      const [state, setState] = useState(() => {
+        try{
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : initial;
+        }catch(e){ return initial; }
+      });
+      useEffect(()=>{ try{ localStorage.setItem(key, JSON.stringify(state)); }catch(e){} }, [key, state]);
+      return [state, setState];
+    }
+
+    function formatISO(dateStr){
+      // dateStr like '2025-06-12' => new Date obj
+      return new Date(dateStr + 'T00:00:00');
+    }
+
+    function monthName(m, y=2025){ return new Date(y, m).toLocaleString('default', { month:'long' }); }
+
+    function downloadText(filename, text){
+      const a = document.createElement('a');
+      a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function App(){
+      // calendar state
+      const today = new Date();
+      const [month, setMonth] = useState(5); // June (0-indexed)
+      const [year, setYear] = useState(2025);
+      const [events, setEvents] = useLocalStorage('ist_events_v1', DEFAULT_EVENTS);
+      const [filter, setFilter] = useState({ types: Object.keys(CATEGORY_META), query:'' });
+      const [modal, setModal] = useState({ open:false, embed:'', title:'' });
+      const [darkMode, setDarkMode] = useState(true);
+
+      useEffect(()=>{ document.body.style.background = darkMode ? 'linear-gradient(180deg,#0b0c1d,#141224)' : '#f5f7fb'; document.body.style.color = darkMode ? '#e9edf5' : '#111'; }, [darkMode]);
+
+      // Build grid data
+      const firstDayIndex = new Date(year, month, 1).getDay(); // 0-6, Sun=0
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+
+      // compute weeks (6 rows)
+      const weeks = useMemo(()=>{
+        const rows = []; let day = 1 - firstDayIndex;
+        for(let r=0;r<6;r++){
+          const week = [];
+          for(let c=0;c<7;c++){
+            if(day>0 && day<=daysInMonth) week.push({ day, iso: `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}` });
+            else week.push(null);
+            day++;
+          }
+          rows.push(week);
+        }
+        return rows;
+      }, [month, year]);
+
+      function prevMonth(){ if(month===0){ setMonth(11); setYear(y=>y-1);} else setMonth(m=>m-1); }
+      function nextMonth(){ if(month===11){ setMonth(0); setYear(y=>y+1);} else setMonth(m=>m+1); }
+      function goToToday(){ setMonth(today.getMonth()); setYear(today.getFullYear()); }
+
+      function openEvent(ev){
+        setModal({ open:true, embed: ev.embed || '<div>No preview</div>', title: `${ev.title} — ${ev.date} ${ev.time ? ev.time : ''}` });
+      }
+      function closeModal(){ setModal({ open:false, embed:'', title:'' }); }
+
+      // filter events for a given iso date
+      function eventsForDate(iso){
+        return events.filter(e => e.date === iso && filter.types.includes(e.type) && (filter.query.trim()==='' || `${e.title} ${e.type}`.toLowerCase().includes(filter.query.toLowerCase())));
+      }
+
+      // add event (local)
+      function addEvent(newEv){
+        const evt = { id: uid(), ...newEv };
+        setEvents(prev => [...prev, evt]);
+      }
+
+      function deleteEvent(evId){
+        if(!confirm('Delete event?')) return;
+        setEvents(prev => prev.filter(e=>e.id!==evId));
+      }
+
+      function exportJSON(){
+        const text = JSON.stringify(events, null, 2);
+        downloadText(`ist_events_${year}_${String(month+1).padStart(2,'0')}.json`, text);
+      }
+
+      function exportCSV(){
+        // minimal CSV columns: id,date,time,title,type,embed
+        const rows = [['id','date','time','title','type','embed']];
+        events.forEach(e => rows.push([e.id, e.date, e.time || '', `"${(e.title||'').replace(/"/g,'""')}"`, e.type, `"${(e.embed||'').replace(/"/g,'""')}"`]));
+        const csv = rows.map(r => r.join(',')).join('\n');
+        downloadText(`ist_events_${year}_${String(month+1).padStart(2,'0')}.csv`, csv);
+      }
+
+      // UI helpers
+      const allTypes = Object.keys(CATEGORY_META);
+
+      return (
+        <div className="app">
+          <div className="left">
+            <div className="header">
+              <div className="title">🗓️ ISTNBG Activity Calendar</div>
+              <div className="controls">
+                <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                  <button className="small" onClick={prevMonth}>◀</button>
+                  <div style={{minWidth:150,textAlign:'center'}} className="month-title">{monthName(month)} {year}</div>
+                  <button className="small" onClick={nextMonth}>▶</button>
+                </div>
+                <button className="small" onClick={goToToday}>Today</button>
+                <button className="btn-primary small" onClick={()=>setModal({open:true,embed:'',title:'Add new event'})}>+ Add Event</button>
+              </div>
+            </div>
+
+            <div className="filter-row" style={{justifyContent:'space-between'}}>
+              <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
+                <div style={{display:'flex',gap:6,alignItems:'center'}}>
+                  <label style={{fontSize:13,color:'var(--muted)'}}>Filter</label>
+                </div>
+
+                {allTypes.map(t => (
+                  <label key={t} style={{display:'flex',alignItems:'center',gap:6}}>
+                    <input type="checkbox" checked={filter.types.includes(t)} onChange={(e)=>{
+                      if(e.target.checked) setFilter(f=>({ ...f, types: Array.from(new Set([...f.types, t])) }));
+                      else setFilter(f=>({ ...f, types: f.types.filter(x=>x!==t) }));
+                    }}/>
+                    <span style={{fontSize:13}}>{CATEGORY_META[t].emoji} {CATEGORY_META[t].label}</span>
+                  </label>
+                ))}
+              </div>
+
+              <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                <input className="search" placeholder="Search title or type..." type="text" value={filter.query} onChange={e=>setFilter(f=>({...f, query:e.target.value}))} />
+                <button className="small" onClick={()=>{ setFilter({ types: allTypes, query: '' }); }}>Clear</button>
+                <button className="small" onClick={()=>{ exportCSV(); }}>Export CSV</button>
+                <button className="small" onClick={()=>{ exportJSON(); }}>Export JSON</button>
+                <button className="small" onClick={()=>setDarkMode(d=>!d)}>{darkMode ? 'Light' : 'Dark'}</button>
+              </div>
+            </div>
+
+            <div style={{marginTop:12}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:8,marginBottom:6}}>
+                {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>(
+                  <div key={d} className="weekday">{d}</div>
+                ))}
+              </div>
+
+              <div className="calendar">
+                {weeks.map((week, wi)=> week.map((cell, ci)=> (
+                  cell ? (
+                    <div key={`${wi}-${ci}`} className={`cell ${ (new Date().getFullYear()===year && new Date().getMonth()===month && new Date().getDate()===cell.day) ? 'today-highlight' : '' }`}>
+                      <div className="date">{cell.day}</div>
+                      <div>
+                        {eventsForDate(cell.iso).map(ev => (
+                          <div key={ev.id} className={`pill ${CATEGORY_META[ev.type]?.className || ''}`} onClick={()=>openEvent(ev)}>
+                            <span style={{fontSize:16}}>{CATEGORY_META[ev.type]?.emoji || '🔖'}</span>
+                            <div style={{flex:1}}>
+                              <div style={{fontWeight:600, fontSize:13, color: darkMode ? '#051026' : '#111'}}>{ev.title}</div>
+                              <div style={{fontSize:12, color: darkMode ? '#b7b4c9' : '#555'}}>{ev.time || ''} · {CATEGORY_META[ev.type]?.label}</div>
+                            </div>
+                            <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                              <button style={{background:'transparent',border:'0',color:'inherit',cursor:'pointer'}} onClick={(e)=>{ e.stopPropagation(); if(confirm('Delete this event?')) deleteEvent(ev.id); }}>🗑</button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div key={`${wi}-${ci}`} className="cell empty"></div>
+                  )
+                )))}
+              </div>
+            </div>
+
+            <div className="footer">
+              Tip: Click a colored event to open embedded media. Add events using "Add Event". Data stored locally (localStorage).
+            </div>
+          </div>
+
+          <div className="right">
+            <div className="right-section panel">
+              <h3>Legend</h3>
+              <div className="legend">
+                {Object.keys(CATEGORY_META).map(k=>(
+                  <div className="legend-item" key={k}>
+                    <strong style={{marginRight:6}}>{CATEGORY_META[k].emoji}</strong> {CATEGORY_META[k].label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="right-section panel">
+              <h3>Quick Navigation</h3>
+              <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                <button className="small" onClick={()=>{ setMonth(5); setYear(2025); }}>June 2025</button>
+                <button className="small" onClick={()=>{ setMonth(new Date().getMonth()); setYear(new Date().getFullYear()); }}>This Month</button>
+                <button className="small" onClick={()=>{ setMonth(0); setYear(2025); }}>Jan 2025</button>
+              </div>
+            </div>
+
+            <div className="right-section panel">
+              <h3>Manage Events</h3>
+              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                <button className="small" onClick={()=>{ setModal({open:true,embed:'',title:'Add new event'}) }}>Add Event</button>
+                <button className="small" onClick={()=>{ if(confirm('Clear all events? This cannot be undone.')){ setEvents([]); } }}>Clear All</button>
+              </div>
+            </div>
+
+            <div className="right-section panel">
+              <h3>Search</h3>
+              <input type="text" placeholder="Search title..." value={filter.query} onChange={e=>setFilter(f=>({...f, query:e.target.value}))} />
+            </div>
+
+            <div style={{marginTop:12,fontSize:12,color:'var(--muted)'}}>
+              <div>Data persists in your browser (localStorage).</div>
+              <div style={{marginTop:6}}>If you want to export or share events, use Export JSON/CSV buttons in header.</div>
+            </div>
+          </div>
+
+          {/* Modal area */}
+          {modal.open && (
+            <div className="modal-backdrop" onClick={closeModal}>
+              <div className="modal" onClick={e=>e.stopPropagation()}>
+                {modal.title === 'Add new event' || modal.title.startsWith('Add new') ? (
+                  <AddEventForm onAdd={(ev)=>{ addEvent(ev); closeModal(); }} onCancel={closeModal} defaultDate={`${year}-${String(month+1).padStart(2,'0')}-01`} />
+                ) : (
+                  <>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+                      <div style={{fontSize:16,fontWeight:700}}>{modal.title}</div>
+                      <div><button className="small" onClick={closeModal}>Close</button></div>
+                    </div>
+                    <div className="embed-preview" dangerouslySetInnerHTML={{ __html: modal.embed }} />
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function AddEventForm({ onAdd, onCancel, defaultDate }){
+      const [title, setTitle] = useState('');
+      const [date, setDate] = useState(defaultDate || '');
+      const [time, setTime] = useState('');
+      const [type, setType] = useState('ig-post');
+      const [embed, setEmbed] = useState('');
+      const [autoClose, setAutoClose] = useState(true);
+
+      function submit(e){
+        e.preventDefault();
+        if(!title || !date) return alert('Provide title and date.');
+        onAdd({ date, time, title, type, embed });
+        if(autoClose) { /* parent closes modal */ }
+      }
+
+      return (
+        <form onSubmit={submit}>
+          <div style={{display:'grid',gap:10}}>
+            <div>
+              <label style={{fontSize:13}}>Title</label>
+              <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="Event title" />
+            </div>
+            <div style={{display:'flex',gap:8}}>
+              <div style={{flex:1}}>
+                <label style={{fontSize:13}}>Date</label>
+                <input type="date" value={date} onChange={e=>setDate(e.target.value)} />
+              </div>
+              <div style={{width:110}}>
+                <label style={{fontSize:13}}>Time</label>
+                <input type="time" value={time} onChange={e=>setTime(e.target.value)} />
+              </div>
+            </div>
+
+            <div>
+              <label style={{fontSize:13}}>Category</label>
+              <select value={type} onChange={e=>setType(e.target.value)}>
+                {Object.keys(CATEGORY_META).map(k=> <option key={k} value={k}>{CATEGORY_META[k].emoji} {CATEGORY_META[k].label}</option>)}
+              </select>
+            </div>
+
+            <div>
+              <label style={{fontSize:13}}>Embed HTML (YouTube iframe, Twitter blockquote, etc.)</label>
+              <textarea rows="4" value={embed} onChange={e=>setEmbed(e.target.value)} placeholder="<iframe ...> or blockquote embed"></textarea>
+            </div>
+
+            <div style={{display:'flex',gap:8,justifyContent:'flex-end',marginTop:6}}>
+              <label style={{display:'flex',alignItems:'center',gap:6}}>
+                <input type="checkbox" checked={autoClose} onChange={e=>setAutoClose(e.target.checked)} />
+                Auto close
+              </label>
+              <button type="button" className="small" onClick={onCancel}>Cancel</button>
+              <button type="submit" className="btn-primary small">Add Event</button>
+            </div>
+          </div>
+        </form>
+      );
+    }
+
+    // Render
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+  </script>
+</body>
+</html>

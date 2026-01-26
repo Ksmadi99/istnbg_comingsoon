@@ -1,305 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TUNEXX | X Archive</title>
-
-  <style>
-    :root {
-      --bg: #0c0c0c;
-      --card: rgba(255,255,255,0.08);
-      --accent: #ffd700;
-      --text: #ffffff;
-      --muted: #cccccc;
-      --border: rgba(255,215,0,0.4);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 60%, #16213e 100%);
-      color: var(--text);
-    }
-
-    /* NAV */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(0,0,0,0.8);
-      padding: 1rem;
-      text-align: center;
-    }
-
-    nav a {
-      color: var(--accent);
-      text-decoration: none;
-      margin: 0 1rem;
-      font-weight: 600;
-    }
-
-    nav a.active {
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 4px;
-    }
-
-    /* CONTAINER */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 5rem;
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-    }
-
-    /* ARCHIVE PILLS */
-    .archive-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 2.5rem;
-    }
-
-    .archive-pill {
-      padding: 0.6rem 1.6rem;
-      border-radius: 999px;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--accent);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .archive-pill:hover {
-      background: rgba(255,215,0,0.15);
-    }
-
-    .archive-pill.active {
-      background: var(--accent);
-      color: #000;
-    }
-
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* CARD */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem;
-      backdrop-filter: blur(8px);
-    }
-
-    .card h3 {
-      margin: 0 0 0.4rem;
-      color: var(--accent);
-      font-size: 1rem;
-    }
-
-    .meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
-
-    .source a {
-      font-size: 0.8rem;
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* EMBED */
-    .embed {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 0.6rem;
-      border: 1px solid var(--border);
-      background: #000;
-    }
-
-    .embed iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* ARCHIVE VISIBILITY */
-    .archive-section { display: none; }
-    .archive-section.active { display: block; }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      margin-top: 3rem;
-      font-size: 0.8rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISTNBG | TUNEXX Coming Soon 🌌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%); color: #fff; overflow-x: hidden; }
+        header { height: 100vh; background: url('https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?q=80&w=2071') center/cover; display: flex; align-items: center; justify-content: center; position: relative; }
+        header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .hero-content { position: relative; z-index: 1; text-align: center; padding: 0 1rem; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 4rem; color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-bottom: 1rem; transition: transform 0.3s; }
+        h1:hover { transform: scale(1.05); }
+        .subtitle { font-size: 1.5rem; color: #ccc; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 1rem 0; z-index: 10; text-align: center; }
+        nav a { color: #ffd700; text-decoration: none; margin: 0 1rem; font-weight: 600; transition: color 0.3s; }
+        nav a:hover { color: #fff; }
+        section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #ffd700; text-align: center; margin-bottom: 2rem; cursor: pointer; transition: color 0.3s; }
+        h2:hover { color: #fff; }
+        .countdown { text-align: center; font-size: 2rem; margin-bottom: 2rem; }
+        .countdown span { color: #ffd700; }
+        .lineup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .lineup-card { background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; backdrop-filter: blur(10px); text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .lineup-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent); transition: all 0.6s ease; }
+        .lineup-card:hover::before { left: 100%; }
+        .lineup-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(255,215,0,0.3); border: 1px solid #ffd700; }
+        .lineup-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; filter: brightness(70%); margin-bottom: 1rem; transition: filter 0.3s; }
+        .lineup-card:hover img { filter: brightness(100%); }
+        .lineup-card h3 { font-family: 'Playfair Display', serif; color: #ffd700; margin-bottom: 0.5rem; }
+        .lineup-card p { font-size: 0.9rem; color: #ccc; margin-bottom: 0.5rem; }
+        .lineup-card a { display: block; color: #ffd700; text-decoration: none; font-weight: 600; border: 1px solid #ffd700; padding: 0.5rem; border-radius: 5px; transition: background 0.3s; }
+        .lineup-card a:hover { background: #ffd700; color: #000; }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+        .social-card { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; text-align: center; }
+        .social-card a { color: #ffd700; text-decoration: none; }
+        .video-embed { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 50%; z-index: 20; display: none; background: #000; border-radius: 10px; }
+        .close { position: absolute; top: 10px; right: 10px; color: #fff; font-size: 2rem; cursor: pointer; }
+        .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #ffd700; color: #000; padding: 1rem; border-radius: 50%; cursor: pointer; display: none; transition: opacity 0.3s; }
+        .back-to-top:hover { opacity: 0.8; }
+        footer { text-align: center; padding: 2rem; background: rgba(0,0,0,0.5); }
+        @media (max-width: 768px) { h1 { font-size: 2.5rem; } section { padding: 2rem 1rem; } .countdown { font-size: 1.5rem; } .lineup-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
-
 <body>
-
-<nav>
-  <a href="../index.html">Home</a>
-  <a href="archive.html" class="active">Archive</a>
+<nav class="tabs">
+<a class="tab" href="#teaser">Teaser</a>
+<a class="tab" href="#lineup">Lineup</a>
+<a class="tab" href="#connect">Connect</a>
+<a class="tab active" href="archive.html">Archive</a>
 </nav>
 
-<div class="container">
-  <h1>X Archive</h1>
-  <p class="subtitle">IST Entertainment · ISTNBG Fan Archive</p>
-
-  <!-- PILLS -->
-  <div class="archive-tabs">
-    <button class="archive-pill active" data-target="groupArchive">Group Archive</button>
-    <button class="archive-pill" data-target="individualArchive">Individual Archive</button>
-  </div>
-
-  <!-- GROUP ARCHIVE -->
-  <section id="groupArchive" class="archive-section active">
-    <div class="grid">
-      <article class="card">
-        <h3>IST PROJECT ARCHIVE · TUNEXX</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          Source:
-          <a href="https://x.com/ist_ent/search?q=%23TUNEXX" target="_blank">#TUNEXX</a>
+    <header>
+        <div class="hero-content">
+            <h1>ISTNBG TUNEXX COMING SOON</h1>
+            <p class="subtitle">MARCH | Debut Coming Soon</p>
         </div>
-        <div class="embed">
-          <iframe
-            src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23TUNEXX"
-            loading="lazy">
-          </iframe>
+    </header>
+
+    <section id="teaser">
+        <h2>🌟 Countdown to Debut</h2>
+        <div class="countdown" id="countdown">Days: <span>00</span> Hours: <span>00</span> Minutes: <span>00</span> Seconds: <span>00</span></div>
+        <p style="text-align: center; font-size: 1.1rem;">Get ready for IST Entertainment’s next boy group! Watch the teaser and stay tuned for cosmic vibes.</p>
+        <button onclick="playVideo('https://www.youtube.com/embed/PLACEHOLDER')" style="display: block; margin: 2rem auto; padding: 0.5rem 1rem; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer;">Play Teaser</button>
+    </section>
+
+    <section id="lineup">
+    <h2>🪐 Meet the Lineup</h2>
+    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">
+        ISTNBG’s stellar trainees are gearing up for debut. Click a card to dive into their world!
+    </p>
+    <div class="lineup-grid">
+        <!-- Confirmed Trainees -->
+        <div class="lineup-card">
+            <a href="donggyu.html">
+                <img src="https://pbs.twimg.com/media/GyNIB5ebQAATPuF.jpg" alt="Park Donggyu Teaser">
+                <h3>Park Donggyu</h3>
+                <span class="star-seal">🌳</span>
+                <p>The Solar All-Rounder | Boys II Planet Ace 🌳</p>
+                <p>Vocals that shine across the galaxy.</p>
+            </a>
         </div>
-      </article>
+        <div class="lineup-card">
+            <a href="inhu.html">
+                <img src="hhttps://kpop.fandom.com/wiki/Kim_In_Hu" alt="Kim Inhu Teaser">
+                <h3>Kim Inhu</h3>
+                <span class="star-seal">⭐</span>
+                <p>Performance Machine | Stage Magnet ⭐</p>
+                <p>Coming Soon: Explosive energy and charisma.</p>
+            </a>
+        </div>
+        <div class="lineup-card">
+            <a href="sihwan.html">
+                <img src="https://example.com/kim-sihwan-placeholder.jpg" alt="Kim Si-hwan Teaser">
+                <h3>Kim Si-hwan</h3>
+                <span class="star-seal">🤗</span>
+                <p>Main Dancer Extraordinaire | IST Prodigy 🤗</p>
+                <p>Coming Soon: Moves that mesmerize.</p>
+            </a>
+        </div>
+        <div class="lineup-card">
+            <a href="arctic.html">
+                <img src="https://example.com/arctic-placeholder.jpg" alt="Arctic Teaser">
+                <h3>Arctic</h3>
+                <span class="star-seal">🐶</span>
+                <p>Rap Phenom | Cool Edge Vibes 🐶</p>
+                <p>Coming Soon: Flows as sharp as ice.</p>
+            </a>
+        </div>
+
+        <!-- Rumored Trainees -->
+        <div class="lineup-card rumored">
+            <a href="jaheon.html">
+                <img src="https://example.com/park-jaheon-placeholder.jpg" alt="Park Jaheon Teaser">
+                <h3>Park Jaehoon</h3>
+                <span class="star-seal">🦊</span>
+                <p>Rumored Trainee | Awaiting Confirmation 🦊</p>
+                <p>Speculative: Stellar talent hinted by sources.</p>
+            </a>
+        </div>
+        <div class="lineup-card rumored">
+            <a href="moonsungjun.html">
+                <img src="https://example.com/moonsungjun-placeholder.jpg" alt="Moonsungjun Teaser">
+                <h3>Moonsungjun</h3>
+                <span class="star-seal">🦢</span>
+                <p>Rumored Trainee | Awaiting Confirmation 🦢</p>
+                <p>Speculative: Rising star in the shadows.</p>
+            </a>
+        </div>
+        <div class="lineup-card rumored">
+            <a href="taira.html">
+                <img src="https://example.com/taira-placeholder.jpg" alt="Taira Teaser">
+                <h3>Taira</h3>
+                <span class="star-seal">🔮</span>
+                <p>Rumored Trainee | Awaiting Confirmation 🔮</p>
+                <p>Speculative: Mystery talent under spotlight.</p>
+            </a>
+        </div>
     </div>
-  </section>
+    <p style="text-align: center; font-size: 0.9rem; color: #888; margin-top: 2rem;">
+        Lineup speculative—updates from IST's cosmic reveals. More stars incoming! 🌠
+    </p>
+</section>
 
-  <!-- INDIVIDUAL ARCHIVE -->
-  <section id="individualArchive" class="archive-section">
-    <div class="grid">
+    <section id="connect">
+        <h2>🔗 Join the Hype</h2>
+        <p style="text-align: center;">Follow ISTNBG’s journey on X and official channels. Connect with fans worldwide!</p>
+        <div class="social-grid">
+            <div class="social-card"><a href="https://x.com/IST_ENT" target="_blank">@IST_ENT (Official)</a></div>
+            <div class="social-card"><a href="https://x.com/DONGGYUGLOBAL" target="_blank">@DONGGYUGLOBAL (Donggyu Fan)</a></div>
+            <div class="social-card"><a href="https://www.youtube.com/@ISTEntertainment" target="_blank">IST YouTube</a></div>
+            <div class="social-card"><a href="https://x.com/planet_plum_" target="_blank">@planet_plum_ (JP Fan)</a></div>
+        </div>
+    </section>
 
-      <article class="card">
-        <h3>PARK DONGGYU</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23PARKDONGGYU" target="_blank">#PARKDONGGYU</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23PARKDONGGYU"></iframe>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>KIM SIHWAN</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23KIMSIHWAN" target="_blank">#KIMSIHWAN</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23KIMSIHWAN"></iframe>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>KIM INHU</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23KIMINHU" target="_blank">#KIMINHU</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23KIMINHU"></iframe>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>ARCTIC</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23ARCTIC" target="_blank">#ARCTIC</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23ARCTIC"></iframe>
-        </div>
-      </article>
-
-         <article class="card">
-        <h3>PARK JAEHOON</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23ARCTIC" target="_blank">#ARCTIC</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23ARCTIC"></iframe>
-        </div>
-      </article>
-
-         <article class="card">
-        <h3>MOONSUNGJUN</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23ARCTIC" target="_blank">#ARCTIC</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23ARCTIC"></iframe>
-        </div>
-      </article>
-
-         <article class="card">
-        <h3>TAIRA</h3>
-        <div class="meta">Official X Archive · @ist_ent</div>
-        <div class="source">
-          <a href="https://x.com/ist_ent/search?q=%23ARCTIC" target="_blank">#ARCTIC</a>
-        </div>
-        <div class="embed">
-          <iframe src="https://twitframe.com/show?url=https://x.com/ist_ent/search?q=%23ARCTIC"></iframe>
-        </div>
-      </article>
-
+    <div class="video-embed" id="videoModal">
+        <span class="close" onclick="closeVideo()">&times;</span>
+        <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
     </div>
-  </section>
 
-  <footer>
-    © TUNEXX Fan Archive · Data sourced from X & IST Entertainment
-  </footer>
-</div>
+    <div class="back-to-top" onclick="scrollToTop()" id="backToTop">↑</div>
 
-<script>
-  const pills = document.querySelectorAll('.archive-pill');
-  const sections = document.querySelectorAll('.archive-section');
+    <footer>
+        <p>&copy; 2025 ISTNBG Fanpage | Awaiting the Cosmic Debut | Data from X & IST Entertainment.</p>
+    </footer>
 
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      sections.forEach(s => s.classList.remove('active'));
+    <script>
+        function playVideo(url) { document.getElementById('videoFrame').src = url; document.getElementById('videoModal').style.display = 'block'; }
+        function closeVideo() { document.getElementById('videoModal').style.display = 'none'; document.getElementById('videoFrame').src = ''; }
+        window.onscroll = () => { document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none'; };
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-      pill.classList.add('active');
-      document.getElementById(pill.dataset.target).classList.add('active');
-    });
-  });
-</script>
-
+        // Countdown Timer (set to Dec 31, 2025)
+        const debutDate = new Date('2026-03-01T00:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = debutDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('countdown').innerHTML = `Days: <span>${days}</span> Hours: <span>${hours}</span> Minutes: <span>${minutes}</span> Seconds: <span>${seconds}</span>`;
+            if (distance < 0) document.getElementById('countdown').innerHTML = 'Debut Launched!';
+        }
+        setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
